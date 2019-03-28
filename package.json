@@ -1,0 +1,36 @@
+{
+  "name": "webcsenet",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "nodemon ./bin/www",
+    "client": "npm start --prefix client",
+    "start-prod": "cd client && npm run build && cd .. && npm run server",
+    "build-prod": "cd client && npm run build"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "~4.16.0",
+    "http-errors": "~1.6.2",
+    "jade": "~1.11.0",
+    "knex": "^0.15.2",
+    "morgan": "~1.9.0",
+    "objection": "^1.4.0",
+    "pg": "^7.6.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.4",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "concurrently": "^4.1.0",
+    "nodemon": "^1.18.7",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3"
+  }
+}
