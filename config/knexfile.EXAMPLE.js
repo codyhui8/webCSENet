@@ -3,13 +3,10 @@
 module.exports = {
 
   development: {
-    client: 'postgresql',
+    client: 'sqlite3',
     connection: {
-      host: '111.11.111.11', // Insert IP 
-      database: 'DBNAME', // Database Name
-      user:     'DBUSERNAME', // Database Username
-      password: 'DBPASSWORD' // Database Password
-    },
+      filename: "./database/csenet.db"
+    }
   },
 
   staging: {
@@ -29,13 +26,10 @@ module.exports = {
   },
 
   production: {
-    client: 'postgresql',
+    client: 'sqlite3',
     connection: {
-      host: '111.11.111.11', // Insert IP 
-      database: 'DBNAME', // Database Name
-      user:     'DBUSERNAME', // Database Username
-      password: 'DBPASSWORD' // Database Password
+      filename: "./database/csenet.db"
     }
-  }
+  },
 
 };
