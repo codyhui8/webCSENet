@@ -1,5 +1,12 @@
 'use strict';
 
+var LRU = require('lru-cache'),
+    options = {  
+        max : 100,                   // The maximum number of items allowed in the cache
+        max_age : 1000 * 60 * 60 * 24 * 180    // The maximum life of a cached item in milliseconds
+    },
+    cache = new LRU(options)
+
 var router = require('express').Router();
 const { transaction } = require('objection');
 const FAR_CODE = require('../../models/FAR_CODE');
@@ -35,31 +42,39 @@ router.get('/functionAction/:function/:action', async (req, res) => {
 });
 
 router.get('/requiredFields/:farcode', async (req, res) => {
-    const value = await FAR_CODE_DATA_BLOCK.query()
-        .join('FAR_CODE', join => {
-            join.on('FAR_CODE_DATA_BLOCK.FAR_CODE_ID', '=', 'FAR_CODE.FAR_CODE_ID')
-        })
-        .eager('DATA_BLOCK_FIELDS.[DATA_BLOCK]')
-        .where('FAR_CODE.FAR_CODE_CD', '=', req.params.farcode);
-
+    var cache_key = "requiredFields:" + req.params.farcode
+    var value = cache.get(cache_key)
+    if (!value) {
+        value = await FAR_CODE_DATA_BLOCK.query()
+            .join('FAR_CODE', join => {
+                join.on('FAR_CODE_DATA_BLOCK.FAR_CODE_ID', '=', 'FAR_CODE.FAR_CODE_ID')
+            })
+            .eager('DATA_BLOCK_FIELDS.[DATA_BLOCK]')
+            .where('FAR_CODE.FAR_CODE_CD', '=', req.params.farcode);
+        cache.set(cache_key, value)
+    }
     res.send(value);
 });
 
 router.get('/dataBlocks/:farcode/', async (req, res) => {
-    const value = await DATA_BLOCK.query()
-        .join('DATA_BLOCK_FIELDS', join => {
-            join.on('DATA_BLOCK.DATA_BLOCK_ID', '=', 'DATA_BLOCK_FIELDS.DATA_BLOCK_ID')
-        })
-        .join('FAR_CODE_DATA_BLOCK', join => {
-            join.on('DATA_BLOCK_FIELDS.DATA_BLOCK_FIELDS_ID', '=', 'FAR_CODE_DATA_BLOCK.DATA_BLOCK_FIELDS_ID')
-        })
-        .join('FAR_CODE', join => {
-            join.on('FAR_CODE_DATA_BLOCK.FAR_CODE_ID', '=', 'FAR_CODE.FAR_CODE_ID')
-        })
-        .where('FAR_CODE.FAR_CODE_CD', '=', req.params.farcode)
-        .distinct('BLOCK_NAME_CD', 'DATA_BLOCK.DATA_BLOCK_ID')
-        .orderBy('DATA_BLOCK.DATA_BLOCK_ID', 'asc')
-
+    var cache_key = "dataBlocks:" + req.params.farcode
+    var value = cache.get(cache_key)
+    if (!value) {
+        value = await DATA_BLOCK.query()
+            .join('DATA_BLOCK_FIELDS', join => {
+                join.on('DATA_BLOCK.DATA_BLOCK_ID', '=', 'DATA_BLOCK_FIELDS.DATA_BLOCK_ID')
+            })
+            .join('FAR_CODE_DATA_BLOCK', join => {
+                join.on('DATA_BLOCK_FIELDS.DATA_BLOCK_FIELDS_ID', '=', 'FAR_CODE_DATA_BLOCK.DATA_BLOCK_FIELDS_ID')
+            })
+            .join('FAR_CODE', join => {
+                join.on('FAR_CODE_DATA_BLOCK.FAR_CODE_ID', '=', 'FAR_CODE.FAR_CODE_ID')
+            })
+            .where('FAR_CODE.FAR_CODE_CD', '=', req.params.farcode)
+            .distinct('BLOCK_NAME_CD', 'DATA_BLOCK.DATA_BLOCK_ID')
+            .orderBy('DATA_BLOCK.DATA_BLOCK_ID', 'asc')
+        cache.set(cache_key, value)
+    }
     res.send(value);
 });
 

@@ -6,7 +6,8 @@ module.exports = {
     client: 'sqlite3',
     connection: {
       filename: "./database/csenet.db"
-    }
+    },
+    useNullAsDefault: true
   },
 
   staging: {
@@ -29,7 +30,8 @@ module.exports = {
     client: 'sqlite3',
     connection: {
       filename: "./database/csenet.db"
-    }
+    },
+    useNullAsDefault: true
   },
 
 };
