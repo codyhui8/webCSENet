@@ -1,0 +1,12 @@
+table {
+    text-align: left;
+    border-collapse: collapse;
+    width: 100%;
+    margin: auto;
+    align-self: left;
+  }
+
+#extractedDataTable {
+    width: 80%;
+    margin: auto;
+}

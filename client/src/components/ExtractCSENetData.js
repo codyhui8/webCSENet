@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './ExtractCSENetData.css';
 
 import ExtractedCSENetTable from './ExtractedCSENetTable/ExtractedCSENetTable';
+import InputCSENetData from './InputCSENetData/InputCSENetData'
 
 class ExtractCSENetData extends Component {
     constructor(props) {
@@ -15,7 +16,9 @@ class ExtractCSENetData extends Component {
 
     handleChange = (event) => {
         this.setState({
-            inputtedData: encodeURIComponent(event.target.value)
+            inputtedData: encodeURIComponent(event.target.value),
+            submittedData: '',
+            isSubmitted: false
         })
     }
 
@@ -35,23 +38,25 @@ class ExtractCSENetData extends Component {
         // console.log(this.state.inputtedData)
 
         if(submittedData !== '' && isSubmitted === true) {
-            console.log(this.state.inputtedData)
+            // console.log(this.state.inputtedData)
             temp = (
                 <div className='extractedCSENetData'>
-                    <form onSubmit={this.handleSubmit}>
+                    {/* <form onSubmit={this.handleSubmit}>
                         Input Data: <input type='text' name='inputtedData' value={this.state.inputtedData} onChange={this.handleChange}  />
                         <input type="submit" value="Submit" />
-                    </form>
+                    </form> */}
+                    <InputCSENetData value={this.state.inputtedData} handleChange={this.handleChange} handleSubmit={this.handleSubmit}/>
                     <ExtractedCSENetTable inputtedData={submittedData}/>
                 </div>
             )
         } else {
             temp = (
                 <div className='extractedCSENetData'>
-                    <form onSubmit={this.handleSubmit}>
+                    {/* <form onSubmit={this.handleSubmit}>
                         Input Data: <input type='text' name='inputtedData' value={this.state.inputtedData} onChange={this.handleChange}/>
                         <input type="submit" value="Submit" />
-                    </form>
+                    </form> */}
+                    <InputCSENetData value={this.state.inputtedData} handleChange={this.handleChange} handleSubmit={this.handleSubmit}/>
                 </div>
             )
         }

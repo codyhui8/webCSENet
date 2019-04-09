@@ -55,18 +55,18 @@ class ExtractedCSENetTable extends Component {
             const extractedValues = this.renderExtractedFieldsTable(extractedData[value])
             return (
                 <TabPanel>
-                        <table>
-                            <thead>
-                                <tr className="extractedCSENetFieldsHeader">
-                                    <th width='50%'>Field Name</th>
-                                    <th>Extracted Value</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {extractedValues}
-                            </tbody>
-                        </table>
-                    </TabPanel>
+                    <table>
+                        <thead>
+                            <tr className="extractedCSENetFieldsHeader">
+                                <th width='50%'>Field Name</th>
+                                <th>Extracted Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {extractedValues}
+                        </tbody>
+                    </table>
+                </TabPanel>
             )
         })
     }
@@ -100,7 +100,7 @@ class ExtractedCSENetTable extends Component {
         } 
 
         return (
-            <React.Fragment>
+            <div id='extractedDataTable'>
                 <h3>Extracted Data</h3>
                 <Tabs>
                     <TabList>
@@ -113,7 +113,7 @@ class ExtractedCSENetTable extends Component {
                     </TabList>
                     { this.renderExtractedFields() }
                 </Tabs>
-            </React.Fragment>
+            </div>
         )
         
     }
