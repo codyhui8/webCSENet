@@ -41,10 +41,10 @@ class Home extends Component {
             <div id="outer-container">
                 
                 <Menu width={ "300px" } pageWrapId={ "page-wrap" } outerContainerId={ "outer-container" }>
-                    <a id="FARCodeRequiredFields" className="menu-item" href="/reference">
+                    <a id="FARCodeRequiredFields" className="menu-item" href="/">
                         <Link to="/reference">Reference</Link>
                     </a>
-                    <a id="ExtractCSENetData" className="menu-item" href="/extractor">
+                    <a id="ExtractCSENetData" className="menu-item" href="/">
                         <Link to="/extractor">Extractor</Link>
                     </a>
                 </Menu>
